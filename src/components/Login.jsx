@@ -77,7 +77,7 @@ function Login() {
             console.log('error while login: ', error);
         }
     }
-
+    
     {/* #testing @bibek will delete this code later */}
     const removeAccount = async () => {
         try{
@@ -115,7 +115,7 @@ function Login() {
     const whatOnSession = () => {
         console.log('session data: ', sessionStorage.getItem('user'));
     }
-
+    
   return (
     <div className='Container'>
         <div className='app-title'>
@@ -140,7 +140,7 @@ function Login() {
         {/* <button onClick={removeAccount}>Remove your account</button>
         <button onClick={logout}>Logout</button>
         <button onClick={whatOnSession}>session data</button> */}
-
+    
     </div>
   )
 }

@@ -16,7 +16,7 @@ function CreateGroup() {
         const name = nameRef.current.value
         const response = await axios.post(name)
     }
-
+    console.log(sessionStorage.getItem('user'))
 
 
     return (
