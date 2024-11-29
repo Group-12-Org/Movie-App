@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { XMLParser } from 'fast-xml-parser';
 import axios from 'axios';
-
+import { pool } from "../helpers/db.js";
 // config dotenv
 import dotenv from 'dotenv';
 dotenv.config();
@@ -42,6 +42,7 @@ movieRouter.get("/findbyid", async (req, res) => {
         res.status(500).send(err.message);
     }
 });
+
 
 movieRouter.get('/trending', async(req, res) => {
     try{
@@ -110,5 +111,59 @@ movieRouter.get('/showtime/:movie', async (req, res) => {
         res.status(500).send(err.message);
     }
 } )
+
+
+movieRouter.post("/addFavorite", async (req, res) => {
+    const { users_id, movie_id} = req.body;
+
+    if (!users_id || !movie_id) {
+        return res.status(400).send("Missing required fields.");
+    }
+
+    const client = await pool.connect();
+
+    try {
+        await client.query('BEGIN'); // Start a transaction
+
+        // Step 1: Insert movie into the movie table if it doesn't exist
+        const movieInsertResult = await client.query(
+            `INSERT INTO movie (movie_id) 
+             VALUES ($1)
+             ON CONFLICT (movie_id) DO NOTHING RETURNING *`,
+            [movie_id]
+        );
+
+        // Step 2: Insert the movie into the favorite table
+        const favoriteInsertResult = await client.query(
+            `INSERT INTO favorite (favorite_users_id, favorite_movie_id) 
+             VALUES ($1, $2)
+             ON CONFLICT (favorite_users_id, favorite_movie_id) DO NOTHING RETURNING *`,
+            [users_id, movie_id]
+        );
+
+        await client.query('COMMIT'); // Commit the transaction
+
+        // Return response
+        if (favoriteInsertResult.rowCount > 0) {
+            res.status(200).json({
+                message: "Movie added to favorites successfully",
+                movie: movieInsertResult.rows[0], // Movie details (if added)
+                favorite: favoriteInsertResult.rows[0], // Favorite relation details
+            });
+        } else {
+            res.status(200).json({
+                message: "Movie is already in favorites.",
+            });
+        }
+    } catch (err) {
+        await client.query('ROLLBACK'); // Rollback if there's an error
+        console.error(err);
+        res.status(500).send("Error adding movie to favorites.");
+    } finally {
+        client.release(); // Release the database connection
+    }
+});
+
+
 
 export default movieRouter;

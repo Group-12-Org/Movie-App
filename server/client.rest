@@ -33,9 +33,9 @@ Content-Type: application /json
   "review_rating": 5,
   "review_text": "This movie was fantastic!",
   "review_created_at": "2024-11-13T08:14:39.966Z",
-  "review_users_id": "1"
-  "review_movie_id": "2435"
-  "review_users_email: mike.milson@gmail.com"
+  "review_users_id": "1",
+  "review_movie_id": "2435",
+  "review_users_email": "mike.milson@gmail.com"
 }
 
 ### Listing a single review
@@ -46,9 +46,9 @@ Content-Type: application /json
   "review_rating": 5,
   "review_text": "This movie was fantastic!",
   "review_created_at": "2024-11-13T08:14:39.966Z",
-  "review_users_id": "1"
-  "review_movie_id": "2435"
-  "review_users_email: mike.milson@gmail.com"
+  "review_users_id": "1",
+  "review_movie_id": "2435",
+  "review_users_email": "mike.milson@gmail.com"
 }
 
 ### Review creation
@@ -56,11 +56,11 @@ POST http://localhost:3001/reviews/create
 Content-Type: application /json
 
 {
-  "review_users_id": "1" 
-  "review_users_email": "mike.milson@gmail.com" 
-  "review_movie_id": "2435"
-  "review_text": "This movie was epic"
-  "review_rating": "5"
+  "review_users_id": "1" ,
+  "review_users_email": "mike.milson@gmail.com" ,
+  "review_movie_id": "2435",
+  "review_text": "This movie was epic",
+  "review_rating": "5",
   "review_created_at": "2024-11-13T08:14:39.966Z" 
 }
 
@@ -69,3 +69,12 @@ Content-Type: application /json
 ### Get userspage
 GET http://localhost:3001/userpage/?users_id=1
 Content-Type: application/json
+
+### Test adding a favorite
+POST http://localhost:3001/movie/addFavorite/
+Content-Type: application/json
+
+{
+    "users_id": 1,
+    "movie_id": 12
+}
