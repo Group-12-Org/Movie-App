@@ -1,0 +1,35 @@
+.notifications-app-container {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.notifications-app-container h1 {
+  color: #f9f9f9;
+}
+
+.notifications-card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.notifications-card {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 300px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.notifications-card p {
+  margin: 0 0 10px;
+}
+
+.notifications-button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
